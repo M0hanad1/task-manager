@@ -1,0 +1,81 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Noto Sans", sans-serif;
+    padding: 20px;
+}
+
+form {
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+input[name="task"] {
+    padding: 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+input[name="task"]:focus-within {
+    border: 1px solid #555555;
+}
+
+input[type="submit"] {
+    background-color: white;
+    outline: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #c7c6c6;
+}
+
+.content {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.tasks {
+    padding: 5px;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 8px;
+    width: 250px;
+}
+
+#todo {
+    border: 1px solid blue;
+}
+
+#doing {
+    border: 1px solid red;
+}
+
+#done {
+    border: 1px solid green;
+}
+
+.task {
+    border: inherit;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.task.dragging {
+    opacity: 0.5;
+}
