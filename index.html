@@ -27,9 +27,33 @@
             <input type="submit" value="Add Task" />
         </form>
         <div class="content">
-            <div class="tasks" id="todo"></div>
-            <div class="tasks" id="doing"></div>
-            <div class="tasks" id="done"></div>
+            <details class="tasks" id="todo">
+                <summary>
+                    <div>
+                        <i class="fa-solid fa-caret-right"></i>
+                        TODO
+                    </div>
+                    <span></span>
+                </summary>
+            </details>
+            <details class="tasks" id="doing">
+                <summary>
+                    <div>
+                        <i class="fa-solid fa-caret-right"></i>
+                        DOING
+                    </div>
+                    <span></span>
+                </summary>
+            </details>
+            <details class="tasks" id="done">
+                <summary>
+                    <div>
+                        <i class="fa-solid fa-caret-right"></i>
+                        DONE
+                    </div>
+                    <span></span>
+                </summary>
+            </details>
         </div>
         <script src="js/main.js"></script>
     </body>

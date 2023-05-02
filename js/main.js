@@ -1,7 +1,18 @@
-let form = document.querySelector("form");
-let taskName = form.firstElementChild;
+let taskName = document.querySelector("input[name='task']");
 let containers = document.querySelectorAll(".tasks");
+let form = document.querySelector("form");
 let [todo, doing, done] = containers;
+
+function updateCounter() {
+    document.querySelectorAll("details").forEach((value) => {
+        let span = document.querySelector(`#${value.id} span`);
+        if (value.children.length - 1) {
+            return (span.textContent = value.children.length - 1);
+        }
+        span.textContent = 0;
+        value.open = false;
+    });
+}
 
 function loadStorage() {
     Object.keys(localStorage)
@@ -10,9 +21,10 @@ function loadStorage() {
             let task = JSON.parse(localStorage.getItem(index));
             createTask(task.parent, task.text);
         });
+    updateCounter();
 }
 
-function updateStorage() {
+function updateData() {
     document.querySelectorAll(".task").forEach((task, index) => {
         localStorage.setItem(
             index,
@@ -22,21 +34,47 @@ function updateStorage() {
             })
         );
     });
+    updateCounter();
 }
 
 function createTask(parent, text) {
     let task = document.createElement("div");
-    task.onclick = () => {
+    task.addEventListener("click", () => {
         task.remove();
         localStorage.clear();
-        updateStorage();
-    };
-    task.ondragstart = () => task.classList.add("dragging");
-    task.ondragend = () => task.classList.remove("dragging");
+        updateData();
+    });
+    task.addEventListener("mouseenter", () =>
+        !document.querySelector(".dragging")
+            ? (task.style.backgroundColor = window
+                .getComputedStyle(task.parentElement)
+                .getPropertyValue("border-color"))
+            : null
+    );
+    task.addEventListener("mouseleave", () =>
+        !task.classList.contains("dragging")
+            ? (task.style.backgroundColor = "transparent")
+            : null
+    );
+    task.addEventListener("dragstart", () => task.classList.add("dragging"));
+    task.addEventListener("dragend", () => task.classList.remove("dragging"));
     task.draggable = true;
     task.className = "task";
     task.textContent = text;
-    document.getElementById(parent).appendChild(task);
+
+    let grabIcon = document.createElement("i");
+    grabIcon.className = "fa-solid fa-grip-lines";
+    task.appendChild(grabIcon);
+
+    let container = document.getElementById(parent);
+    container.appendChild(task);
+    task.style.borderColor = window
+        .getComputedStyle(container)
+        .getPropertyValue("border-color");
+
+    createTask.caller.name === "createTaskCaller"
+        ? (container.open = true)
+        : null;
 }
 
 function getDragPosition(container, y) {
@@ -59,26 +97,33 @@ function getDragPosition(container, y) {
     ).element;
 }
 
-form.onsubmit = (event) => {
+form.addEventListener("submit", function createTaskCaller(event) {
+    event.preventDefault();
     createTask("todo", taskName.value);
     taskName.value = "";
-    updateStorage();
-    event.preventDefault();
-};
+    updateData();
+});
 
 containers.forEach((container) => {
-    container.ondragover = (event) => {
+    container.addEventListener("dragover", (event) => {
         event.preventDefault();
         let task = document.querySelector(".dragging");
         let afterElement = getDragPosition(container, event.clientY);
+        let borderColor = window
+            .getComputedStyle(task.parentElement)
+            .getPropertyValue("border-color");
+
+        task.style.borderColor = borderColor;
+        task.style.backgroundColor = borderColor;
 
         if (afterElement) {
             container.insertBefore(task, afterElement);
         } else {
             container.append(task);
         }
-        updateStorage();
-    };
+        container.open = true;
+        updateData();
+    });
 });
 
 loadStorage();

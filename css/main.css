@@ -1,10 +1,13 @@
 * {
     box-sizing: border-box;
+    background-color: transparent;
 }
 
 body {
     font-family: "Noto Sans", sans-serif;
     padding: 20px;
+    background-color: #060c18;
+    color: white;
 }
 
 form {
@@ -21,6 +24,7 @@ input[name="task"] {
     border: 1px solid #ccc;
     border-radius: 8px;
     transition: 0.3s;
+    color: white;
 }
 
 input[name="task"]:focus-within {
@@ -28,13 +32,13 @@ input[name="task"]:focus-within {
 }
 
 input[type="submit"] {
-    background-color: white;
     outline: none;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     cursor: pointer;
     transition: 0.3s;
+    color: white;
 }
 
 input[type="submit"]:hover {
@@ -43,19 +47,34 @@ input[type="submit"]:hover {
 
 .content {
     display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column;
     gap: 20px;
 }
 
-.tasks {
-    padding: 5px;
-    min-height: 350px;
+details {
+    padding: 6px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
     border-radius: 8px;
-    width: 250px;
+    width: 100%;
+}
+
+summary {
+    cursor: pointer;
+    margin-left: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+summary i {
+    margin-right: 5px;
+    transition: 0.3s;
+}
+
+details[open] summary i {
+    transform: rotate(90deg);
 }
 
 #todo {
@@ -71,11 +90,21 @@ input[type="submit"]:hover {
 }
 
 .task {
-    border: inherit;
-    padding: 5px;
+    border: 1px solid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 8px;
     border-radius: 8px;
+    margin-block: 8px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.task i {
+    cursor: grab;
 }
 
 .task.dragging {
-    opacity: 0.5;
+    cursor: grabbing;
 }
