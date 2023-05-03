@@ -1,13 +1,11 @@
 let taskName = document.querySelector("input[name='task']");
-let containers = document.querySelectorAll(".tasks");
 let form = document.querySelector("form");
-let [todo, doing, done] = containers;
 
 function updateCounter() {
     document.querySelectorAll("details").forEach((value) => {
         let span = document.querySelector(`#${value.id} span`);
-        if (value.children.length - 1) {
-            return (span.textContent = value.children.length - 1);
+        if (value.children[1].children.length) {
+            return (span.textContent = value.children[1].children.length);
         }
         span.textContent = 0;
         value.open = false;
@@ -29,7 +27,7 @@ function updateData() {
         localStorage.setItem(
             index,
             JSON.stringify({
-                parent: task.parentElement.id,
+                parent: task.parentElement.parentElement.id,
                 text: task.textContent,
             })
         );
@@ -47,7 +45,7 @@ function createTask(parent, text) {
     task.addEventListener("mouseenter", () =>
         !document.querySelector(".dragging")
             ? (task.style.backgroundColor = window
-                .getComputedStyle(task.parentElement)
+                .getComputedStyle(task.parentElement.parentElement)
                 .getPropertyValue("border-color"))
             : null
     );
@@ -67,7 +65,7 @@ function createTask(parent, text) {
     task.appendChild(grabIcon);
 
     let container = document.getElementById(parent);
-    container.appendChild(task);
+    container.children[1].appendChild(task);
     task.style.borderColor = window
         .getComputedStyle(container)
         .getPropertyValue("border-color");
@@ -104,25 +102,35 @@ form.addEventListener("submit", function createTaskCaller(event) {
     updateData();
 });
 
-containers.forEach((container) => {
+document.querySelectorAll("details").forEach((container) => {
     container.addEventListener("dragover", (event) => {
         event.preventDefault();
         let task = document.querySelector(".dragging");
         let afterElement = getDragPosition(container, event.clientY);
         let borderColor = window
-            .getComputedStyle(task.parentElement)
+            .getComputedStyle(task.parentElement.parentElement)
             .getPropertyValue("border-color");
 
         task.style.borderColor = borderColor;
         task.style.backgroundColor = borderColor;
 
         if (afterElement) {
-            container.insertBefore(task, afterElement);
+            container.children[1].insertBefore(task, afterElement);
         } else {
-            container.append(task);
+            container.children[1].append(task);
         }
         container.open = true;
         updateData();
+    });
+
+    container.addEventListener("toggle", () => {
+        if (container.open && !container.children[1].children.length) {
+            container.open = false;
+            container.style.animation = "shake 0.05s linear alternate infinite";
+            setTimeout(() => {
+                container.style.animation = "";
+            }, 500);
+        }
     });
 });
 
