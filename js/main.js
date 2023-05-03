@@ -58,7 +58,10 @@ function createTask(parent, text) {
     task.addEventListener("dragend", () => task.classList.remove("dragging"));
     task.draggable = true;
     task.className = "task";
-    task.textContent = text;
+
+    let paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    task.appendChild(paragraph)
 
     let grabIcon = document.createElement("i");
     grabIcon.className = "fa-solid fa-grip-lines";

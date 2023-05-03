@@ -98,10 +98,16 @@ details[open] summary i {
     justify-content: space-between;
     align-items: center;
     padding: 5px 8px;
+    transition: 0.15s;
     border-radius: 8px;
     margin-block: 8px;
     margin-left: 15px;
     cursor: pointer;
+}
+
+.task p {
+    width: fit-content;
+    margin: 0;
 }
 
 .task i {
