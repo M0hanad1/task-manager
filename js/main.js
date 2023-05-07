@@ -1,3 +1,5 @@
+"use strict";
+
 let taskName = document.querySelector("input[name='task']");
 let form = document.querySelector("form");
 
@@ -45,8 +47,8 @@ function createTask(parent, text) {
     task.addEventListener("mouseenter", () =>
         !document.querySelector(".dragging")
             ? (task.style.backgroundColor = window
-                .getComputedStyle(task.parentElement.parentElement)
-                .getPropertyValue("border-color"))
+                  .getComputedStyle(task.parentElement.parentElement)
+                  .getPropertyValue("border-color"))
             : null
     );
     task.addEventListener("mouseleave", () =>
@@ -61,7 +63,7 @@ function createTask(parent, text) {
 
     let paragraph = document.createElement("p");
     paragraph.textContent = text;
-    task.appendChild(paragraph)
+    task.appendChild(paragraph);
 
     let grabIcon = document.createElement("i");
     grabIcon.className = "fa-solid fa-grip-lines";
