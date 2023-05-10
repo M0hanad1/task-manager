@@ -1,5 +1,3 @@
-"use strict";
-
 let taskName = document.querySelector("input[name='task']");
 let form = document.querySelector("form");
 
